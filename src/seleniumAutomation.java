@@ -1,53 +1,61 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-
-import java.io.IOException;
+import java.util.List;
 
 public class seleniumAutomation {
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException {
         // Init drivers, get webpage, maximize
-        WebDriver foxDriver = new FirefoxDriver();
-        JavascriptExecutor exe = (JavascriptExecutor) foxDriver;
-        Actions action = new Actions(foxDriver);
-        foxDriver.get("https://artoftesting.com/sampleSiteForSelenium");
-        foxDriver.manage().window().maximize();
-/*
+        WebDriver driver = new ChromeDriver();
+        JavascriptExecutor exe = (JavascriptExecutor) driver;
+        Actions action = new Actions(driver);
+        driver.get("https://artoftesting.com/sampleSiteForSelenium");
+        driver.manage().window().maximize();
+
         // Retrieve page title, url and display them in console
-        System.out.println("\nSite: " + foxDriver.getCurrentUrl());
-        System.out.println("Title: " + foxDriver.getTitle());
+        System.out.println("\nSite: " + driver.getCurrentUrl());
+        System.out.println("Title: " + driver.getTitle());
 
         // Find and enter text in textbox
-        foxDriver.findElement(By.id("fname")).sendKeys("Hello!");
+        driver.findElement(By.id("fname")).sendKeys("Hello!");
         Thread.sleep(500);
-*/
+
+        // Click link, refreshes page
+        driver.findElement(By.linkText("This is a link")).click();
+
         // Scroll a full page down for visibility
         exe.executeScript("window.scroll(0,800)","");
-/*
+
         // Find and tick radio buttons and checkboxes
-        foxDriver.findElement(By.id("female")).click();
-        foxDriver.findElement(By.className("Automation")).click();
+        driver.findElement(By.id("female")).click();
+        driver.findElement(By.className("Automation")).click();
 
         // Init var for dropdown, select text
-        WebElement dropdown = foxDriver.findElement(By.id("testingDropdown"));
+        WebElement dropdown = driver.findElement(By.id("testingDropdown"));
         Select dd = new Select(dropdown);
         dd.selectByIndex(2);
         Thread.sleep(1000);
 
-        // Get size of web elements
-        System.out.println("The size of all links on the page is: " + foxDriver.findElements(By.tagName("a")).size());
-*/
         // Scroll to and perform drag and drop
         exe.executeScript("window.scroll(0,1600)", "");
-        action.dragAndDrop(foxDriver.findElement(By.id("myImage")), foxDriver.findElement(By.xpath("//*[@id=\"targetDiv\"]")))
-                        .perform();
+        WebElement image = driver.findElement(By.id("myImage"));
+        WebElement box = driver.findElement(By.xpath("//*[@id=\"targetDiv\"]"));
+        action.dragAndDrop(image, box).build().perform();
+
+        // Loop to find all browser elements, display them w/ total size
+        List<WebElement> allElements = driver.findElements(By.xpath("//*[@id]")); // xpath selects all elements with id
+        System.out.println("The size of all elements is: "+allElements.size()+'\n');
+        for (WebElement l : allElements) {
+            System.out.print(l.getText() + ' ');
+        }
+
 
         Thread.sleep(3000);
-        foxDriver.quit(); // End program
+        driver.quit(); // End program
 
     }
 }
