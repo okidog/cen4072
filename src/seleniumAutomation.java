@@ -42,7 +42,7 @@ public class seleniumAutomation {
 
         // Scroll to and perform drag and drop
         exe.executeScript("window.scroll(0,1600)", "");
-        WebElement image = driver.findElement(By.id("myImage"));
+        WebElement image = driver.findElement(By.cssSelector("img#myImage"));
         WebElement box = driver.findElement(By.xpath("//*[@id=\"targetDiv\"]"));
         action.dragAndDrop(image, box).build().perform();
 
