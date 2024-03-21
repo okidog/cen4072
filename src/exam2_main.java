@@ -10,9 +10,10 @@ import org.openqa.selenium.io.FileHandler;
 import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class exam2_main {
-    @Test(timeOut = 0, priority = 1)
+    @Test(priority = 1)
     void gmailLogin() throws InterruptedException {
         // Init driver
         WebDriver driver = new FirefoxDriver();
@@ -29,9 +30,11 @@ public class exam2_main {
         // Output page title and URL
         System.out.println("Title: "+driver.getTitle()); // Print title and current URL
         System.out.println("Current URL: "+driver.getCurrentUrl());
+
+        driver.quit();
     }
 
-    @Test(timeOut = 1000, priority = 2)
+    @Test(priority = 2)
     void demoblaze() throws InterruptedException { // Test 2 - Run tests on demoblaze website
         // Init driver
         WebDriver driver = new FirefoxDriver();
@@ -52,7 +55,7 @@ public class exam2_main {
         driver.quit();
     }
 
-    @Test(timeOut = 1000, priority = 3)
+    @Test(priority = 3)
     void tutorialspointScreenshot() throws InterruptedException, IOException { // Test 3 - Screenshot
         // Init drivers
         WebDriver driver = new FirefoxDriver();
@@ -64,6 +67,10 @@ public class exam2_main {
         Thread.sleep(250);
         driver.findElement(By.linkText("Links")).click();
         driver.findElement(By.linkText("Home")).click();
+
+        // Switch driver tab to current tab
+        ArrayList<String> list = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(list.get(1));
         Thread.sleep(5000);
 
         // Take screenshot
@@ -74,8 +81,8 @@ public class exam2_main {
         driver.quit();
     }
 
-    @Test(timeOut = 1000, priority = 4)
-    void tutorialspointUpload() throws InterruptedException, IOException { // Test 4 - Upload image
+    @Test(priority = 4)
+    void tutorialspointUpload() throws InterruptedException { // Test 4 - Upload image
         // Init drivers
         WebDriver driver = new FirefoxDriver();
         driver.get("https://www.tutorialspoint.com/selenium/practice/selenium_automation_practice.php");
@@ -90,7 +97,7 @@ public class exam2_main {
         driver.quit();
     }
 
-    @Test(timeOut = 1000, priority = 5)
+    @Test(priority = 5)
     void dragAndDropTest() throws InterruptedException { // Test 5 - Drag and drop
         // Init drivers
         WebDriver driver = new FirefoxDriver();
