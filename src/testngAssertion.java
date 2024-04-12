@@ -1,11 +1,15 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.util.Random;
+import java.util.List;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
 
-public class testngAssertion {/*
+public class testngAssertion {
     @Test(priority=1)
     public void reverseNumber() {
         // Read input
@@ -24,7 +28,23 @@ public class testngAssertion {/*
 
     @Test(priority = 2)
     public void factorial() {
-        System.out.println("I'll finish this later");
+        // Generate a random int to ask factorial
+        Random rand = new Random();
+        int randInt = rand.nextInt(6) + 1;
+        System.out.println("What is "+ randInt +"! equal to?");
+
+        // Read input
+        Scanner in = new Scanner(System.in);
+        int input = parseInt(in.nextLine());
+
+        // Calculate factorial of randomly generated integer
+        int calculatedFactorial = 1;
+        for (int i = randInt; i > 1; i--) {
+            calculatedFactorial *= i;
+        }
+        // Assert
+        Assert.assertEquals(input, calculatedFactorial, "Factorials do not match!");
+
     }
 
     @Test(priority = 3)
@@ -59,12 +79,35 @@ public class testngAssertion {/*
         driver.quit();
 
         Assert.assertEquals(currentTitle, "oki.gay", "Title does not match!");
-    } */
+    }
 
     @Test(priority = 5)
     public void pageUrl() {
         // Init driver, navigate to subpage
         WebDriver driver = new FirefoxDriver();
         driver.get("http://oki.gay");
+        driver.findElement(By.xpath("/html/body/a[3]")).click();
+
+        // Store current url as string for assertion
+        String currentUrl = driver.getCurrentUrl();
+        driver.quit();
+
+        Assert.assertEquals(currentUrl, "http://oki.gay/ccinfo/", "URL does not match!");
+
+    }
+
+    @Test(priority = 6)
+    public void elementSize() {
+        // Init driver
+        WebDriver driver = new FirefoxDriver();
+        driver.get("http://oki.gay");
+
+        // Find all elements and output total size
+        List<WebElement> allElements = driver.findElements(By.xpath("//*")); // xpath selects all elements
+
+        Assert.assertEquals(allElements.size(), 55, "Sizes do not match!");
+
+        driver.quit();
+
     }
 }
